@@ -17,8 +17,8 @@ const Hero: React.FC = () => {
 
     // dosya indirmeyi tetikle
     const link = document.createElement('a');
-    link.href = '/CV_ÖMER_AKDOĞAN.pdf';
-    link.download = 'CV_ÖMER_AKDOĞAN.pdf';
+    link.href = '/CV_OMER_AKDOGAN.pdf';
+    link.download = 'CV_OMER_AKDOGAN.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
