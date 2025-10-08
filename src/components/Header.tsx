@@ -30,7 +30,7 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center py-4">
           <div className="text-2xl font-bold text-white">
             <span className="text-blue-400">{'<'}</span>
-            akdoganomer.com
+              Computer Engineer
             <span className="text-blue-400">{'/>'}</span>
           </div>
 
