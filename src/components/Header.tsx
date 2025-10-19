@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
+  // 🔹 Scroll ve aktif section kontrolü
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
-    let activeSection = "";
+    let currentActive = "";
 
-    // 🚀 Intersection Observer: aktif section'ı tespit eder
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const id = entry.target.getAttribute("id");
-            if (id && id !== activeSection) {
-              activeSection = id;
+            if (id && id !== currentActive) {
+              currentActive = id;
+              setActiveSection(id);
               window.history.replaceState(null, "", `#${id}`);
             }
           }
@@ -24,65 +26,77 @@ const Header: React.FC = () => {
       },
       {
         root: null,
-        threshold: 0.6, // section’ın %60'ı görünürse aktif say
+        rootMargin: "0px 0px -60% 0px", // 👈 daha erken tetikleme (takılmayı önler)
+        threshold: 0.25, // 👈 %25 görünürlükte aktif say
       }
     );
 
     sections.forEach((section) => observer.observe(section));
 
-    // 🎯 Header scroll efekti
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
   }, []);
 
-  // 🧩 Menüden tıklayınca hem kaydır hem URL'yi güncelle
+  // 🔹 Scroll + hash güncelleme
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(sectionId);
       window.history.pushState(null, "", `#${sectionId}`);
     }
     setIsMenuOpen(false);
   };
 
-
+  // 🔹 Navbar menü öğeleri
+  const navItems = [
+    { label: "Ana Sayfa", id: "hero" },
+    { label: "Hakkımda", id: "about" },
+    { label: "Yetenekler", id: "skills" },
+    { label: "Eğitim", id: "education" },
+    { label: "Projeler", id: "projects" },
+    { label: "İletişim", id: "contact" },
+  ];
 
   return (
-    <header id="header" className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-gray-900/95 backdrop-blur-lg shadow-lg' : 'bg-transparent'
-    }`}>
+    <header
+      id="header"
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? "bg-gray-900/95 backdrop-blur-lg shadow-lg" : "bg-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Üst Alan */}
         <div className="flex justify-between items-center py-4">
-          <div className="text-2xl font-bold text-white">
-            <span className="text-blue-400">{'<'}</span>
-              Computer Engineer
-            <span className="text-blue-400">{'/>'}</span>
+          <div className="text-2xl font-bold text-white select-none">
+            <span className="text-blue-400">&lt;</span>
+            Computer Engineer
+            <span className="text-blue-400">/&gt;</span>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* 💻 Desktop Navbar */}
           <nav className="hidden md:flex space-x-8">
-            {['Ana Sayfa', 'Hakkımda', 'Yetenekler', 'Eğitim', 'Projeler', 'İletişim'].map((item, index) => {
-              const sectionId = ['hero', 'about', 'skills', 'education', 'projects', 'contact'][index];
-              return (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(sectionId)}
-                  className="text-gray-300 hover:text-blue-400 transition-colors duration-200 font-medium"
-                >
-                  {item}
-                </button>
-              );
-            })}
+            {navItems.map(({ label, id }) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={`transition-colors duration-300 font-medium ${
+                  activeSection === id
+                    ? "text-blue-400 border-b-2 border-blue-400 pb-1"
+                    : "text-gray-300 hover:text-blue-400"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* 📱 Mobil Menü Butonu */}
           <button
             className="md:hidden text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -91,21 +105,22 @@ const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* 📱 Mobil Menü */}
         {isMenuOpen && (
           <div className="md:hidden bg-gray-800 rounded-lg mt-2 py-4">
-            {['Ana Sayfa', 'Hakkımda', 'Yetenekler', 'Eğitim', 'Projeler', 'İletişim'].map((item, index) => {
-              const sectionId = ['hero', 'about', 'skills', 'education', 'projects', 'contact'][index];
-              return (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(sectionId)}
-                  className="block w-full text-left px-4 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700 transition-all duration-200"
-                >
-                  {item}
-                </button>
-              );
-            })}
+            {navItems.map(({ label, id }) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={`block w-full text-left px-4 py-2 font-medium transition-all duration-200 ${
+                  activeSection === id
+                    ? "text-blue-400 bg-gray-700"
+                    : "text-gray-300 hover:text-blue-400 hover:bg-gray-700"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         )}
       </div>
