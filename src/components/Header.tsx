@@ -7,26 +7,39 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
+    let activeSection = "";
 
+    // 🚀 Intersection Observer: aktif section'ı tespit eder
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            if (id && id !== activeSection) {
+              activeSection = id;
+              window.history.replaceState(null, "", `#${id}`);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.6, // section’ın %60'ı görünürse aktif say
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    // 🎯 Header scroll efekti
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      let current: string | null = null;
-
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 120 && rect.bottom >= 120) {
-          current = section.getAttribute("id");
-        }
-      });
-
-      if (current) {
-        window.history.replaceState(null, "", `#${current}`);
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   // 🧩 Menüden tıklayınca hem kaydır hem URL'yi güncelle
@@ -34,12 +47,11 @@ const Header: React.FC = () => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
-
-      // Dinamik hash ekleme (örneğin: /#contact)
       window.history.pushState(null, "", `#${sectionId}`);
     }
     setIsMenuOpen(false);
   };
+
 
 
   return (
