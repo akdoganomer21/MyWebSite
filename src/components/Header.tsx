@@ -6,22 +6,41 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      let current: string | null = null;
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 120 && rect.bottom >= 120) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      if (current) {
+        window.history.replaceState(null, "", `#${current}`);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 🧩 Menüden tıklayınca hem kaydır hem URL'yi güncelle
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+      section.scrollIntoView({ behavior: "smooth" });
+
+      // Dinamik hash ekleme (örneğin: /#contact)
       window.history.pushState(null, "", `#${sectionId}`);
     }
     setIsMenuOpen(false);
   };
+
 
   return (
     <header id="header" className={`fixed top-0 w-full z-50 transition-all duration-300 ${
