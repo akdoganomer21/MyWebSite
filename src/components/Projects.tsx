@@ -3,6 +3,17 @@ import { ExternalLink, Github, Code, Database, Smartphone } from 'lucide-react';
 
 const Projects: React.FC = () => {
   const projects = [
+    //Enoca Frontend Challenge - Ürün Tanıtım Landing Page
+    {
+      title: "Enoca Frontend Challenge - Ürün Tanıtım Landing Page",
+      description:
+        "Bu proje, React + TypeScript + Vite kullanılarak geliştirilen modern, responsive ve performans odaklı tek sayfalık (SPA) bir ürün tanıtım (landing) uygulamasıdır. Hero, Features, Pricing, FAQ ve Contact bölümlerinden oluşur. Ayrıca Button, Input, Card, Modal ve Accordion bileşenlerinden oluşan özel bir mini UI kütüphanesi içerir. Proje; mobil öncelikli tasarımı, SCSS modülleriyle tema desteği (Light/Dark) ve basit form doğrulama yapısıyla öne çıkar.",
+      image: "https://github.com/akdoganomer21/enoca-product-landing/raw/dev/public/images/hero.png",
+      technologies: ["React", "TypeScript", "Vite", "SCSS", "ESLint", "Prettier"],
+      githubUrl: "https://github.com/akdoganomer21/enoca-product-landing",
+      liveUrl: "https://enoca-landing.netlify.app/",
+    },
+    //E-Commerce Platform
     {
       title: "E-Commerce Platform",
       description: (
@@ -18,6 +29,7 @@ const Projects: React.FC = () => {
       githubUrl: null,
       liveUrl: null,
     },
+    //Hava Durumu Web Sitesi
     {
       title: "Hava Durumu Web Sitesi",
       description: "Proje ile ilgili tüm detayları GitHub 'ta bulunan 'README' adlı dosyada bulabilirsiniz. Bu proje, Türkiye'deki tüm şehirler için anlık, saatlik ve 7 günlük hava durumu tahminleri sunan modern ve duyarlı (responsive) bir hava durumu uygulamasıdır. Uygulama, Open-Meteo tarafından sağlanan gerçek verileri kullanır ve saatlik olarak otomatik güncellenir.",
@@ -27,6 +39,7 @@ const Projects: React.FC = () => {
       liveUrl: "https://hava-durumu-turkey.netlify.app/sehir/ankara",
       featured: true
     },
+    //LocateAPI Project
     {
       title: "LocateAPI Project",
       description: "Proje ile ilgili tüm detayları GitHub 'ta bulunan 'locate-api PROJECT REPORT(ÖMER AKODĞAN) 4.pdf' adlı dosyada bulabilirsiniz. Bu projenin temel amacı, belirli cihazlardan (örneğin araç takip cihazı veya mobil uygulama) alınan konum verilerinin gerçek zamanlı olarak izlenebilmesini sağlamaktır. Sistem, cihazlardan gelen konum bilgilerini hem veritabanına kaydeder hem de WebSocket (Socket.IO) üzerinden anlık olarak bağlı tüm istemcilere iletir. Bu sayede kullanıcılar, herhangi bir web veya mobil istemciden cihazların güncel konumlarını harita üzerinde canlı olarak takip edebilir.",
@@ -35,7 +48,7 @@ const Projects: React.FC = () => {
       githubUrl: "https://github.com/Eterna-Inc2/locate-api-omerakdogan/tree/main",
       liveUrl: null,
     },
-
+    //Akıllı Park Sistemi
     {
       title: "Akıllı Park Sistemi",
       description: (
@@ -52,6 +65,7 @@ const Projects: React.FC = () => {
       liveUrl: "https://smart-parking-turkey.netlify.app/",
       liveUrlTitle: "Backend servisi kullanılmamaktadır",
     },
+    //Beyaz Eşya Servis Sitesi
     {
       title: "Beyaz Eşya Servis Sitesi",
       description: "Proje ile ilgili tüm detayları GitHub 'ta bulunan 'BeyazEşyaRapor (ÖMER AKDOĞAN).pdf' adlı dosyada bulabilirsiniz. Bu proje, beyaz eşya servisi hizmeti sunan bir firma için geliştirilen modern, hızlı ve mobil uyumlu bir web sitesidir. Proje tamamen HTML, CSS ve JavaScript kullanılarak oluşturulmuştur.",
