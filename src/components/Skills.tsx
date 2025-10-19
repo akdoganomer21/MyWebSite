@@ -7,7 +7,7 @@ const Skills: React.FC = () => {
       title: "Frontend",
       color: "from-blue-500 to-cyan-500",
       icon: <Code className="w-6 h-6 text-blue-400" />,
-      skills: ["HTML", "CSS", "JavaScript", "TypeScript", "React.js", "React Native" , "Vue.js", "Bootstrap", "WebSocket Client"]
+      skills: ["HTML", "CSS", "SCSS", "JavaScript", "TypeScript", "React.js", "React Native" , "Vue.js", "Bootstrap", "WebSocket Client"]
     },
     {
       title: "Backend",

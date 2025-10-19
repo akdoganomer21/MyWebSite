@@ -9,7 +9,7 @@ const Projects: React.FC = () => {
       description:
         "Bu proje, React + TypeScript + Vite kullanılarak geliştirilen modern, responsive ve performans odaklı tek sayfalık (SPA) bir ürün tanıtım (landing) uygulamasıdır. Hero, Features, Pricing, FAQ ve Contact bölümlerinden oluşur. Ayrıca Button, Input, Card, Modal ve Accordion bileşenlerinden oluşan özel bir mini UI kütüphanesi içerir. Proje; mobil öncelikli tasarımı, SCSS modülleriyle tema desteği (Light/Dark) ve basit form doğrulama yapısıyla öne çıkar.",
       image: "/UrunTanıtımLandingPage.jpg",
-      technologies: ["React", "TypeScript", "Vite", "SCSS", "ESLint", "Prettier"],
+      technologies: ["React", "TypeScript", "Vite", "SCSS", "ESLint",],
       githubUrl: "https://github.com/akdoganomer21/enoca-product-landing",
       liveUrl: "https://enoca-landing.netlify.app/",
     },
