@@ -82,7 +82,7 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center py-4">
           <div className="text-2xl font-bold text-white select-none">
             <span className="text-blue-400">&lt;</span>
-            Computer Engineer
+            Full Stack Developer
             <span className="text-blue-400">/&gt;</span>
           </div>
 
