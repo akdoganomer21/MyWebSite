@@ -6,7 +6,6 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
-  // 🔹 Scroll ve aktif section kontrolü
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
     let currentActive = "";
@@ -14,35 +13,44 @@ const Header: React.FC = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("id");
-            if (id && id !== currentActive) {
-              currentActive = id;
-              setActiveSection(id);
-              window.history.replaceState(null, "", `#${id}`);
-            }
+          const id = entry.target.getAttribute("id");
+          if (entry.isIntersecting && id && id !== currentActive) {
+            currentActive = id;
+            setActiveSection(id);
+            window.history.replaceState(null, "", `#${id}`);
           }
         });
       },
       {
         root: null,
-        rootMargin: "0px 0px -60% 0px", // 👈 daha erken tetikleme (takılmayı önler)
-        threshold: 0.25, // 👈 %25 görünürlükte aktif say
+        rootMargin: "0px 0px -30% 0px", // 🔹 daha erken algılama
+        threshold: 0.15, // 🔹 %15 görünürlükte aktif say (özellikle kısa bölümler için)
       }
     );
 
     sections.forEach((section) => observer.observe(section));
 
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
 
+      // 🔹 Sayfanın altına inildiğinde iletişim kısmını otomatik aktif et
+      const isBottom =
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 200;
+      if (isBottom) {
+        setActiveSection("contact");
+        window.history.replaceState(null, "", "#contact");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
   }, []);
 
-  // 🔹 Scroll + hash güncelleme
+  // 🔹 Smooth scroll + URL güncelleme
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -53,7 +61,6 @@ const Header: React.FC = () => {
     setIsMenuOpen(false);
   };
 
-  // 🔹 Navbar menü öğeleri
   const navItems = [
     { label: "Ana Sayfa", id: "hero" },
     { label: "Hakkımda", id: "about" },
@@ -79,13 +86,13 @@ const Header: React.FC = () => {
             <span className="text-blue-400">/&gt;</span>
           </div>
 
-          {/* 💻 Desktop Navbar */}
+          {/* 💻 Masaüstü Navbar */}
           <nav className="hidden md:flex space-x-8">
             {navItems.map(({ label, id }) => (
               <button
                 key={id}
                 onClick={() => scrollToSection(id)}
-                className={`transition-colors duration-300 font-medium ${
+                className={`transition-all duration-300 font-medium ${
                   activeSection === id
                     ? "text-blue-400 border-b-2 border-blue-400 pb-1"
                     : "text-gray-300 hover:text-blue-400"
